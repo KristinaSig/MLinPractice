@@ -10,7 +10,7 @@ Created on Wed Sep 29 14:23:48 2021
 
 import argparse, pickle
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import accuracy_score, cohen_kappa_score
+from sklearn.metrics import accuracy_score, cohen_kappa_score, average_precision_score, precision_recall_curve
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Classifier")
@@ -22,6 +22,8 @@ parser.add_argument("-m", "--majority", action = "store_true", help = "majority 
 parser.add_argument("-f", "--frequency", action = "store_true", help = "label frequency classifier")
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
+parser.add_argument("-ap", "--average_precision", action = "store_true", help = "evaluate using average_precision_score")
+parser.add_argument("-pr", "--precision_recall_curve", action = "store_true", help = "evaluate using precision_recall_curve")
 args = parser.parse_args()
 
 # load data
@@ -55,6 +57,10 @@ if args.accuracy:
     evaluation_metrics.append(("accuracy", accuracy_score))
 if args.kappa:
     evaluation_metrics.append(("Cohen's kappa", cohen_kappa_score))
+if args.average_precision:
+    evaluation_metrics.append(("Average_precision_score", average_precision_score))
+if args.average_precision:
+    evaluation_metrics.append(("Precision_Recall_Curve", precision_recall_curve))
 
 # compute and print them
 for metric_name, metric in evaluation_metrics:
