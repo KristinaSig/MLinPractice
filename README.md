@@ -130,7 +130,7 @@ The classifier is then evaluated, using the evaluation metrics as specified thro
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
 - `-k`or `--kappa`: Cohen's kappa (i.e., adjusting accuracy for probability of random agreement).
 - `-ap` or `--average_precision`: Average Precision 
-- `-rc` or `--precision_recall_curve
+- `-rc` or `--precision_recall_curve`: Precision Recall Curve
 
 - `-a` or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
 - `-k` or `--kappa`: Cohen's kappa (i.e., adjusting accuracy for probability of random agreement).
