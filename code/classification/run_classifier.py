@@ -59,7 +59,7 @@ if args.kappa:
     evaluation_metrics.append(("Cohen's kappa", cohen_kappa_score))
 if args.average_precision:
     evaluation_metrics.append(("Average_precision_score", average_precision_score))
-if args.average_precision:
+if args.precision_recall_curve:
     evaluation_metrics.append(("Precision_Recall_Curve", precision_recall_curve))
 
 # compute and print them
