@@ -11,7 +11,7 @@ Created on Wed Sep 29 14:23:48 2021
 import argparse, pickle
 from sklearn.dummy import DummyClassifier
 
-from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision, precision_recall_curve
+from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision_score, precision_recall_curve
 
 
 # setting up CLI
