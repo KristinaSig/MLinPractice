@@ -12,7 +12,9 @@ import argparse, pickle
 from sklearn.dummy import DummyClassifier
 
 from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision_score, precision_recall_curve
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Classifier")
@@ -23,9 +25,9 @@ parser.add_argument("-i", "--import_file", help = "import a trained classifier f
 parser.add_argument("-m", "--majority", action = "store_true", help = "majority class classifier")
 parser.add_argument("-r", "--random", action = "store_true", help = "random uniform classifier")
 parser.add_argument("-f", "--frequency", action = "store_true", help = "label frequency classifier")
+parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier with the specified value of k", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
-
 parser.add_argument("-ap", "--average_precision", action = "store_true", help = "evaluate using average_precision_score")
 parser.add_argument("-pr", "--precision_recall_curve", action = "store_true", help = "evaluate using precision_recall_curve")
 parser.add_argument("-f1", "--f1_score", action = "store_true", help = "evaluate using F1 score")
@@ -47,17 +49,24 @@ else:   # manually set up a classifier
         # majority vote classifier
         print("    majority vote classifier")
         classifier = DummyClassifier(strategy = "most_frequent", random_state = args.seed)
-        classifier.fit(data["features"], data["labels"])
+        
     elif args.frequency:
         # label frequency classifier
         print("    label frequency classifier")
         classifier = DummyClassifier(strategy = "stratified", random_state = args.seed)
-        classifier.fit(data["features"], data["labels"])
+    
     elif args.random:
         #random uniform classifier
         print("    random uniform classifier")
         classifier = DummyClassifier(strategy = "uniform", random_state = args.seed)
-        classifier.fit(data["features"], data["labels"])
+        	        
+    elif args.knn is not None:
+        print("    {0} nearest neighbor classifier".format(args.knn))
+        standardizer = StandardScaler()
+        knn_classifier = KNeighborsClassifier(args.knn)
+        classifier = make_pipeline(standardizer, knn_classifier)
+    
+    classifier.fit(data["features"], data["labels"].ravel())
 
 # now classify the given data
 prediction = classifier.predict(data["features"])
@@ -68,15 +77,12 @@ if args.accuracy:
     evaluation_metrics.append(("accuracy", accuracy_score))
 if args.kappa:
     evaluation_metrics.append(("Cohen's kappa", cohen_kappa_score))
-
 if args.average_precision:
     evaluation_metrics.append(("Average_precision_score", average_precision_score))
 if args.precision_recall_curve:
     evaluation_metrics.append(("Precision_Recall_Curve", precision_recall_curve))
-
 if args.f1_score:
     evaluation_metrics.append(("F1 score", f1_score))
-
 
 # compute and print them
 for metric_name, metric in evaluation_metrics:
