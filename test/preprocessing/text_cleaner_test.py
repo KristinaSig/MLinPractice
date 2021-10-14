@@ -8,14 +8,14 @@ Created on Sat Oct  9 19:03:13 2021
 
 import unittest
 import pandas as pd
-from code.preprocessing.text_cleaner import Text_cleaner
+from code.preprocessing.text_cleaner import TextCleaner
 
 class Text_CleanerTest(unittest.TestCase):
     
     def setUp(self):
         self.INPUT_COLUMN = "input"
         self.OUTPUT_COLUMN = "output"
-        self.cleaner = Text_cleaner(self.INPUT_COLUMN, self.OUTPUT_COLUMN)
+        self.cleaner = TextCleaner(self.INPUT_COLUMN, self.OUTPUT_COLUMN)
         
     def test_boolean(self):
         self.assertEqual(True, not False)
@@ -44,8 +44,11 @@ class Text_CleanerTest(unittest.TestCase):
         input_df = pd.DataFrame()
         input_df[self.INPUT_COLUMN] = [tweet_1, tweet_2]
         
+        output_df = pd.DataFrame()
+        output_df[self.OUTPUT_COLUMN] = output_tweets
+        
         cleaned_text = self.cleaner.fit_transform(input_df)
-        self.assertEqual(output_tweets, cleaned_text[self.OUTPUT_COLUMN][0])       
+        self.assertEqual(output_df, cleaned_text[self.OUTPUT_COLUMN])       
         
 if __name__ == "__main__":
     unittest.main()
