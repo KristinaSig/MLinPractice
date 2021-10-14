@@ -17,4 +17,6 @@ COLUMN_RETWEETS = "retweets_count"
 COLUMN_LABEL = "label"
 COLUMN_PUNCTUATION = "tweet_no_punctuation"
 
+COLUMN_SENTIMENT = "sentiment_score"
+
 SUFFIX_TOKENIZED = "_tokenized"

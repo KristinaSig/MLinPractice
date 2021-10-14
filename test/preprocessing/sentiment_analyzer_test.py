@@ -9,14 +9,14 @@ Created on Sun Oct 10 13:36:02 2021
 import unittest
 import pandas as pd
 import numpy as np
-from code.preprocessing.sentiment_analyzer import Sentiment_analyzer
+from code.preprocessing.sentiment_analyzer import SentimentAnalyzer
 
 class Sentiment_Test(unittest.TestCase):
     
     def setUp(self):
         self.INPUT_COLUMN = "input"
         self.OUTPUT_COLUMN = "output"
-        self.sentiment_analyzer = Sentiment_analyzer(self.INPUT_COLUMN, self.OUTPUT_COLUMN)
+        self.sentiment_analyzer = SentimentAnalyzer(self.INPUT_COLUMN, self.OUTPUT_COLUMN)
         
     def test_input_columns(self):
         self.assertEqual(self.sentiment_analyzer._input_columns, [self.INPUT_COLUMN])
@@ -42,8 +42,12 @@ class Sentiment_Test(unittest.TestCase):
         input_df = pd.DataFrame()
         input_df[self.INPUT_COLUMN] = [tweet_1, tweet_2]
         
+        output_df = pd.Series()
+        output_df[self.OUTPUT_COLUMN] = output_scores
+        
         sentiment_scores = self.sentiment_analyzer.fit_transform(input_df)
         np.testing.assert_array_equal(output_scores, sentiment_scores[self.OUTPUT_COLUMN])
+        # self.assertEqual(output_df, sentiment_scores[self.OUTPUT_COLUMN])
         
 if __name__ == "__main__":
     unittest.main()
