@@ -10,7 +10,7 @@ Created on Sat Oct  9 23:33:33 2021
 
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.sentiment import SentimentIntensityAnalyzer
-import pandas as pd
+import numpy as np
 
 class SentimentAnalyzer(Preprocessor):
     """Assigns sentiment value to input."""
@@ -25,6 +25,10 @@ class SentimentAnalyzer(Preprocessor):
         # obtain a compound score, which is a balanced version of the negative-neutral-positive scores
         sentiment = [analyzer.polarity_scores(tweet)["compound"] for tweet in inputs[0]]
         
-        sentiment_scores = pd.DataFrame(sentiment, copy = False)
+        sentiment_scores = np.array(sentiment)
+        sentiment_scores = sentiment_scores.reshape(-1,1)
         
         return sentiment_scores
+    
+    
+    

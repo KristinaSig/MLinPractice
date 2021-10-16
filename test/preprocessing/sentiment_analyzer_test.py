@@ -47,7 +47,6 @@ class Sentiment_Test(unittest.TestCase):
         
         sentiment_scores = self.sentiment_analyzer.fit_transform(input_df)
         np.testing.assert_array_equal(output_scores, sentiment_scores[self.OUTPUT_COLUMN])
-        # self.assertEqual(output_df, sentiment_scores[self.OUTPUT_COLUMN])
         
 if __name__ == "__main__":
     unittest.main()
