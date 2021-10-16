@@ -15,6 +15,7 @@ from code.feature_extraction.character_length import CharacterLength
 from code.feature_extraction.hashtags_count import HashtagCountFeature
 from code.feature_extraction.mentions_count import MentionsCountFeature
 from code.feature_extraction.media import ContainsMediaFeature
+from code.feature_extraction.sentiment_score import SentimentScoreFeature
 from code.feature_extraction.feature_collector import FeatureCollector
 from code.util import COLUMN_TWEET, COLUMN_LABEL
 
@@ -29,6 +30,7 @@ parser.add_argument("-c", "--char_length", action = "store_true", help = "comput
 parser.add_argument("-hc", "--hashtag_count", action = "store_true", help = "count the number of hashtags extracted from the tweet")
 parser.add_argument("-mc", "--mentions_count", action = "store_true", help = "count the number of mentions extracted from the tweet")
 parser.add_argument("-m", "--media", action = "store_true", help = "state whether there was any media found in the tweet")
+parser.add_argument("-s", "--sentiment_score", action = "store_true", help = "give a score of sentiment polarity to the tweet")
 args = parser.parse_args()
 
 # load data
@@ -55,7 +57,10 @@ else:    # need to create FeatureCollector manually
     if args.media:
         # state the presence of any media in the tweet
         features.append(ContainsMediaFeature())
-    
+    if args.sentiment_score:
+        # sentiment score indicating the polarity of the tweet (based on the plain text)
+        features.append(SentimentScoreFeature())
+
     # create overall FeatureCollector
     feature_collector = FeatureCollector(features)
     
