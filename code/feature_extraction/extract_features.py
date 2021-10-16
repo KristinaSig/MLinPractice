@@ -26,9 +26,9 @@ parser.add_argument("output_file", help = "path to the output pickle file")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
 parser.add_argument("-c", "--char_length", action = "store_true", help = "compute the number of characters in the tweet")
-parser.add_argument("-t", "--hashtag_count", action = "store_true", help = "count the number of hashtags extracted from the tweet")
-parser.add_argument("-m", "--mentions_count", action = "store_true", help = "count the number of mentions extracted from the tweet")
-parser.add_argument("-d", "--media", action = "store_true", help = "state whether there was any media found in the tweet")
+parser.add_argument("-hc", "--hashtag_count", action = "store_true", help = "count the number of hashtags extracted from the tweet")
+parser.add_argument("-mc", "--mentions_count", action = "store_true", help = "count the number of mentions extracted from the tweet")
+parser.add_argument("-m", "--media", action = "store_true", help = "state whether there was any media found in the tweet")
 args = parser.parse_args()
 
 # load data
