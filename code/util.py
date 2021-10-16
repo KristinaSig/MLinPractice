@@ -21,6 +21,8 @@ COLUMN_VIDEO = "video"
 # column names of novel columns for preprocessing
 COLUMN_LABEL = "label"
 COLUMN_PUNCTUATION = "tweet_no_punctuation"
+COLUMN_TWEET_CLEAN = "tweet_clean"
+COLUMN_SENTIMENT = "sentiment_score"
 COLUMN_MEDIA = "contains_media"
 
 SUFFIX_TOKENIZED = "_tokenized"
