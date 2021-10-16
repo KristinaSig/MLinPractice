@@ -14,7 +14,7 @@ import numpy as np
 from code.util import COLUMN_URLS, COLUMN_PHOTOS, COLUMN_VIDEO, COLUMN_MEDIA
 
 class ContainsMediaFeature(FeatureExtractor):
-    """Creates a feature that represents the number of hashtags extracted from the tweets."""
+    """Creates a feature that indicates presence of some media identified in the tweet."""
     
     # initialize with the input columns that indicate media content
     def __init__(self):
