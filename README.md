@@ -18,6 +18,7 @@ conda install -y -q -c conda-forge nltk=3.6.3
 conda install -y -q -c conda-forge gensim=4.1.2
 conda install -y -q -c conda-forge spyder=5.1.5
 conda install -y -q -c conda-forge pandas=1.1.5
+conda install -y -q -c conda-forge mlflow=1.20.2
 ```
 
 You can double-check that all of these packages have been installed by running `conda list` inside of your virtual environment. The Spyder IDE can be started by typing `~/miniconda/envs/MLinPractice/bin/spyder` in your terminal window (assuming you use miniconda, which is installed right in your home directory).
@@ -56,6 +57,7 @@ The script `run_preprocessing.py` is used to run various preprocessing steps on 
 ```python -m code.preprocessing.run_preprocessing path/to/input.csv path/to/output.csv```
 Here, `input.csv` is a csv file (ideally the output of `create_labels.py`), while `output.csv` is the csv file where the output will be written.
 The preprocessing steps to take can be configured with the following flags:
+- `c` or `--clean_text`: Clean raw text off non-linguistically relevant patterns, such as hashtags, urls, mentions. Input column is by default the raw tweet. 
 - `-p` or `--punctuation`: A new column "tweet_no_punctuation" is created, where all punctuation is removed from the original tweet. (See `code/preprocessing/punctuation_remover.py` for more details)
 - `-t`or `--tokenize`: Tokenize the given column (can be specified by `--tokenize_input`, default = "tweet"), and create new column with suffix "_tokenized" containing tokenized tweet.
 - `s` or `--analyze_sentiment`: Assign a sentiment score to every tweet, ranging from -1 to 1 - the closer to 1, the more positive the tweet. Input column is set to default "tweet_clean", can be specified by `--sentiment_input`.
