@@ -14,7 +14,8 @@ from sklearn.pipeline import make_pipeline
 from code.preprocessing.punctuation_remover import PunctuationRemover
 from code.preprocessing.text_cleaner import TextCleaner
 from code.preprocessing.tokenizer import Tokenizer
-from code.util import COLUMN_TWEET, COLUMN_TWEET_CLEAN, SUFFIX_TOKENIZED
+from code.preprocessing.sentiment_analyzer import SentimentAnalyzer
+from code.util import COLUMN_TWEET, COLUMN_TWEET_CLEAN, SUFFIX_TOKENIZED, COLUMN_SENTIMENT
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Various preprocessing steps")
@@ -24,7 +25,9 @@ parser.add_argument("-p", "--punctuation", action = "store_true", help = "remove
 parser.add_argument("-c", "--clean_text", action = "store_true", help = "clean text of linguistically non-relevant parts, such as hashtags, mentions, urls")
 parser.add_argument("--cleaner_input", help = "input column to text_cleaner", default = COLUMN_TWEET)
 parser.add_argument("-t", "--tokenize", action = "store_true", help = "tokenize given column into individual words")
+parser.add_argument("-s", "--analyze_sentiment", action = "store_true", help = "assign a sentiment score to each tweet in a column")
 parser.add_argument("--tokenize_input", help = "input column to tokenize", default = COLUMN_TWEET_CLEAN)
+parser.add_argument("--sentiment_input", help = "input column to sentiment analyzer", default = COLUMN_TWEET_CLEAN)
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 args = parser.parse_args()
 
@@ -39,6 +42,8 @@ if args.clean_text:
     preprocessors.append(TextCleaner(args.cleaner_input, COLUMN_TWEET_CLEAN))
 if args.tokenize:
     preprocessors.append(Tokenizer(args.tokenize_input, args.tokenize_input + SUFFIX_TOKENIZED))
+if args.analyze_sentiment:
+    preprocessors.append(SentimentAnalyzer(args.sentiment_input, COLUMN_SENTIMENT))
 
 # call all preprocessing steps
 for preprocessor in preprocessors:
