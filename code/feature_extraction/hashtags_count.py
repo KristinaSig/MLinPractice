@@ -22,8 +22,18 @@ class HashtagCountFeature(FeatureExtractor):
     
     def _get_values(self, inputs):
                
-        # counts = inputs[0].str.len()
-        counts = np.array(inputs[0].str.len())
-        counts = counts.reshape(-1,1)
+        counts = []
         
-        return counts
+        for tweet in inputs[0]:
+            # in case the value does not represent an empty list of hashtags, transform the input into list in order to count the number of items
+            if str(tweet) != '[]':
+                tags = tweet.split(",")
+                count = len(tags)
+                counts.append(count)
+            else:
+                counts.append(0)
+        
+        column = np.array(counts)
+        column = column.reshape(-1,1)
+            
+        return column

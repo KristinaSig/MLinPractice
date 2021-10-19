@@ -15,6 +15,7 @@ from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
+import mlflow
 from mlflow import log_metric, log_param, set_tracking_uri
 
 # setting up CLI
