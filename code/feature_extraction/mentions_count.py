@@ -21,9 +21,9 @@ class MentionsCountFeature(FeatureExtractor):
             
     
     def _get_values(self, inputs):
-                
-        counts = np.array(inputs[0].str.count(pat = "'id':"))
-        counts = counts.reshape(-1,1)
-        # counts = inputs[0].str.count(pat = "'id':")            
+ 
+        # exctract the number of mention ids present               
+        counts = np.array(inputs[0].str.count(pat = "'id': "))
+        counts = counts.reshape(-1,1)       
         
         return counts
