@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import make_pipeline
-import mlflow ####
+import mlflow
 from mlflow import log_metric, log_param, set_tracking_uri
 
 # setting up CLI
