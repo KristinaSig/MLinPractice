@@ -10,6 +10,7 @@ Created on Thu Oct 14 18:42:58 2021
 
 from code.feature_extraction.feature_extractor import FeatureExtractor
 import numpy as np
+import ast
 from code.util import COLUMN_HASHTAGS
 
 class HashtagCountFeature(FeatureExtractor):
@@ -21,9 +22,16 @@ class HashtagCountFeature(FeatureExtractor):
             
     
     def _get_values(self, inputs):
-               
-        # counts = inputs[0].str.len()
-        counts = np.array(inputs[0].str.len())
-        counts = counts.reshape(-1,1)
+   
+        counts = []
+        for i in inputs[0]:
+            # first, transform each string input into a list 
+            input_list = ast.literal_eval(i)
+            
+            tag_count = len(input_list)
+            counts.append(tag_count)
         
-        return counts
+        column = np.array(counts)
+        column = column.reshape(-1,1)
+            
+        return column
