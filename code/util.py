@@ -22,7 +22,13 @@ COLUMN_VIDEO = "video"
 COLUMN_LABEL = "label"
 COLUMN_PUNCTUATION = "tweet_no_punctuation"
 COLUMN_TWEET_CLEAN = "tweet_clean"
-COLUMN_SENTIMENT = "sentiment_score"
+COLUMN_SENTIMENT = "sentiment_scores"
 COLUMN_MEDIA = "contains_media"
 
 SUFFIX_TOKENIZED = "_tokenized"
+
+# attribute options to choose from for the sentiment score
+ATTR_NEGATIVE = "neg"
+ATTR_POSITIVE = "pos"
+ATTR_NEUTRAL = "neu"
+ATTR_COMPOUND = "compound"
