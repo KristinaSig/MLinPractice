@@ -10,7 +10,7 @@ Created on Sat Oct  9 23:33:33 2021
 
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.sentiment import SentimentIntensityAnalyzer
-from code.util import ATTR_COMPOUND
+#from code.util import ATTR_COMPOUND
 
 class SentimentAnalyzer(Preprocessor):
     """Assigns sentiment value to input."""
@@ -23,7 +23,7 @@ class SentimentAnalyzer(Preprocessor):
         analyzer = SentimentIntensityAnalyzer()
         
         # obtain a compound score, which is a balanced version of the negative-neutral-positive scores
-        sentiment = [analyzer.polarity_scores(tweet)[ATTR_COMPOUND] for tweet in inputs[0]]
+        sentiment = [analyzer.polarity_scores(tweet) for tweet in inputs[0]]
         
         return sentiment
     

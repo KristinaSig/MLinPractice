@@ -26,7 +26,7 @@ class Sentiment_Test(unittest.TestCase):
     
     def test_sentiment_single_sentence(self):
         input_tweet = "This is the most amazing tweet in history ever."
-        output_score = 0.624
+        output_score = {'neg': 0.0, 'neu': 0.662, 'pos': 0.338, 'compound': 0.624}
        
         input_df = pd.DataFrame()
         input_df[self.INPUT_COLUMN] = [input_tweet]
@@ -37,7 +37,8 @@ class Sentiment_Test(unittest.TestCase):
     def test_sentiment_multiple_tweets(self):
         tweet_1 = "This is the most amazing tweet in history ever."
         tweet_2 = "This is the most horrible tweet ever in history, what a disgrace..."
-        output_scores = [0.624, -0.5849]
+        output_scores = [{'neg': 0.0, 'neu': 0.662, 'pos': 0.338, 'compound': 0.624}, 
+                         {'neg': 0.275, 'neu': 0.725, 'pos': 0.0, 'compound': -0.5849}]
        
         input_df = pd.DataFrame()
         input_df[self.INPUT_COLUMN] = [tweet_1, tweet_2]
