@@ -17,14 +17,14 @@ from code.util import ATTR_COMPOUND as score_attribute
 
 # class for extracting the specified sentiment score as a feature
 class SentimentScoreFeature(FeatureExtractor):
-     """Get a sentiment score for each tweet based on the specified attribute."""
+    """Get a sentiment score for each tweet based on the specified attribute."""
         
     def __init__(self):
         # extract the feature values for attribute "compound" or choose a different attribute from util
         super().__init__([COLUMN_SENTIMENT], score_attribute + "_sentiment_score")
 
     # don't need to fit, so don't overwrite _set_variables()
-    
+
     def _get_values(self, inputs):
         # transform each string input into a dictionary
         list_of_dics = []
