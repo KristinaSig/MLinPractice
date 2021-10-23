@@ -10,6 +10,7 @@ Created on Thu Oct 14 18:42:58 2021
 
 from code.feature_extraction.feature_extractor import FeatureExtractor
 import numpy as np
+import ast
 from code.util import COLUMN_HASHTAGS
 
 class HashtagCountFeature(FeatureExtractor):
@@ -21,17 +22,14 @@ class HashtagCountFeature(FeatureExtractor):
             
     
     def _get_values(self, inputs):
-               
+   
         counts = []
-        
-        for tweet in inputs[0]:
-            # in case the value does not represent an empty list of hashtags, transform the input into list in order to count the number of items
-            if str(tweet) != '[]':
-                tags = tweet.split(",")
-                count = len(tags)
-                counts.append(count)
-            else:
-                counts.append(0)
+        for i in inputs[0]:
+            # first, transform each string input into a list 
+            input_list = ast.literal_eval(i)
+            
+            tag_count = len(input_list)
+            counts.append(tag_count)
         
         column = np.array(counts)
         column = column.reshape(-1,1)
