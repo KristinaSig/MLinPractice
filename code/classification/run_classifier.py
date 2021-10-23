@@ -102,7 +102,7 @@ else:   # manually set up a classifier
         print("    SVM")
         log_param("classifier", "svc")
         params = {"classifier": "svc"}
-        classifier = LinearSVC(kernel='sigmoid', probability=True)
+        classifier = SVC(class_weight='balanced')
             
     
     classifier.fit(data["features"], data["labels"].ravel())
