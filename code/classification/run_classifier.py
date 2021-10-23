@@ -94,16 +94,15 @@ else:   # manually set up a classifier
         print("    Logisitc Regression")
         log_param("classifier", "logistic")
         params = {"classifier": "logistic"}
-        #standardizer = StandardScaler()
         classifier = LogisticRegression(solver='lbfgs', random_state = args.seed)
-        #classifier = make_pipeline(standardizer, lr_classifier)
+
         
         
     elif args.svc:
         print("    SVM")
         log_param("classifier", "svc")
         params = {"classifier": "svc"}
-        classifier = SVC(kernel='linear', probability=True)
+        classifier = LinearSVC(kernel='sigmoid', probability=True)
             
     
     classifier.fit(data["features"], data["labels"].ravel())
