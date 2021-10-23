@@ -30,7 +30,7 @@ parser.add_argument("-c", "--char_length", action = "store_true", help = "comput
 parser.add_argument("-hc", "--hashtag_count", action = "store_true", help = "count the number of hashtags extracted from the tweet")
 parser.add_argument("-mc", "--mentions_count", action = "store_true", help = "count the number of mentions extracted from the tweet")
 parser.add_argument("-m", "--media", action = "store_true", help = "state whether there was any media found in the tweet")
-parser.add_argument("-s", "--sentiment_score", action = "store_true", help = "give a score of sentiment polarity to the tweet")
+parser.add_argument("-s", "--sentiment_score", action = "store_true", help = "state the given score of sentiment polarity of the tweet")
 args = parser.parse_args()
 
 # load data
