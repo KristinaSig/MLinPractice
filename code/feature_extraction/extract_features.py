@@ -12,6 +12,7 @@ import argparse, csv, pickle
 import pandas as pd
 import numpy as np
 from code.feature_extraction.character_length import CharacterLength
+from code.feature_extraction.Avg_len_tweet_flag import AvgLenTweet
 from code.feature_extraction.hashtags_count import HashtagCountFeature
 from code.feature_extraction.mentions_count import MentionsCountFeature
 from code.feature_extraction.media import ContainsMediaFeature
@@ -26,6 +27,7 @@ parser.add_argument("output_file", help = "path to the output pickle file")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
 parser.add_argument("-c", "--char_length", action = "store_true", help = "compute the number of characters in the tweet")
+parser.add_argument("-avg", "--avg_char_len_flag", action = "store_true", help = "compute the binary flag on the basis of char length")
 parser.add_argument("-hc", "--hashtag_count", action = "store_true", help = "count the number of hashtags extracted from the tweet")
 parser.add_argument("-mc", "--mentions_count", action = "store_true", help = "count the number of mentions extracted from the tweet")
 parser.add_argument("-m", "--media", action = "store_true", help = "state whether there was any media found in the tweet")
@@ -55,6 +57,9 @@ else:    # need to create FeatureCollector manually
     if args.media:
         # state the presence of any media in the tweet
         features.append(ContainsMediaFeature())
+    if args.avg_char_len_flag:
+        # character length of original tweet (without any changes)
+        features.append(AvgLenTweet(COLUMN_TWEET))
     
     # create overall FeatureCollector
     feature_collector = FeatureCollector(features)
