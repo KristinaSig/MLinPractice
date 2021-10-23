@@ -25,11 +25,11 @@ fi
 
 # do the grid search
 #for k in $values_of_k
-for k in $solver_val;
+for k in $solver_val
 do
-for j in $c_val;
+for j in $c_val
 do
     echo $k
     echo $j
-    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic $k $ j -s 42 --accuracy --kappa
+    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic $k $j -s 42 --accuracy --kappa
 done
