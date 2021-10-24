@@ -32,9 +32,9 @@ parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier w
 parser.add_argument("--random_forest", action = "store_true", help = "random forest classifier")
 parser.add_argument("-rf_n_estimators", type = int, help = "the number of trees in a forest", default = 100)
 parser.add_argument("-rf_criterion", help = "the function to measure the quality of the split, choose gini or entropy", default = "gini")
-parser.add_argument("-rf_depth", type = int, help = "the maximum depth of the tree. When None, the expansion continues as deep as it gets", default = None)
+parser.add_argument("-rf_depth", type = int, help = "the maximum depth of the tree - when None, the expansion continues as deep as it gets", default = None)
 parser.add_argument("-rf_bootstrap", type = bool, help = "determine if bootstrap samples are used for building the trees, if False the whole dataset is used", default = True)
-parser.add_argument("-rf_samples", type = int, help = "the number of samples to draw from the set to train each base estimator (relevant only when boostrap is set to True)", default = None)
+parser.add_argument("-rf_class_weight", help = "the weight value associated with the classes - when None, all classes have weight  - choose balanced or balanced_subsample", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
 parser.add_argument("-ap", "--average_precision", action = "store_true", help = "evaluate using average_precision_score")
@@ -98,24 +98,24 @@ else:   # manually set up a classifier
         log_param("criterion", args.rf_criterion)
         log_param("max_depth", args.rf_depth)
         log_param("bootstrap", args.rf_bootstrap)
-        log_param("max_samples", args.rf_samples)
+        log_param("class_weight", args.rf_class_weight)
         params = {"classifier": "random forest", 
                   "n_estimators":args.rf_n_estimators, 
                   "criterion": args.rf_criterion,
                   "max_depth": args.rf_depth,
                   "bootstrap": args.rf_bootstrap,
-                  "max_samples": args.rf_samples}
+                  "class_weight": args.rf_class_weight}
         
         n_est = args.rf_n_estimators
         crit = args.rf_criterion
         depth = args.rf_depth
         bs = args.rf_bootstrap
-        samples = args.rf_samples
+        c_weight = args.rf_class_weight
         classifier = RandomForestClassifier(n_estimators = n_est, 
                                             criterion = crit, 
                                             max_depth = depth, 
                                             bootstrap = bs, 
-                                            max_samples = samples, 
+                                            class_weight = c_weight, 
                                             n_jobs = -1)
     
     classifier.fit(data["features"], data["labels"].ravel())
