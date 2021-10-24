@@ -31,6 +31,8 @@ parser.add_argument("-m", "--majority", action = "store_true", help = "majority 
 parser.add_argument("-r", "--random", action = "store_true", help = "random uniform classifier")
 parser.add_argument("-f", "--frequency", action = "store_true", help = "label frequency classifier")
 parser.add_argument("-lr", "--logistic", action = "store_true", help = "Logistic Regression")
+parser.add_argument("-lr_solver", "--logistic regression solver", action = "store_true", help = "Logistic Regression solver")
+parser.add_argument("-lr_c", "--logistic regression regulator parameter", action = "store_true", help = "Logistic Regression penalty regulation parameter")
 parser.add_argument("--svc", "--svc", action = "store_true", help = "Support Vector Classifier")
 parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier with the specified value of k", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
@@ -93,8 +95,12 @@ else:   # manually set up a classifier
     elif args.logistic:
         print("    Logisitc Regression")
         log_param("classifier", "logistic")
-        params = {"classifier": "logistic"}
-        classifier = LogisticRegression(solver='lbfgs', random_state = args.seed)
+        log_param("solver", args.lr_solver)
+        log_param("C", args.lr_c)
+        params = {"classifier": "logistic",
+                  "solver": args.lr_solver,
+                  "C": args.lr_c}
+        classifier = LogisticRegression(solver=args.lr_solver, C = args.lr_c, random_state = args.seed)
 
         
         
