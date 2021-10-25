@@ -30,5 +30,6 @@ for j in $c_val
 do
     echo $k
     echo $j
-    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic $k $j -s 42 --accuracy --kappa
+    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic -lr_solver $k -lr_c $j -s 42 --accuracy --kappa
+done
 done
