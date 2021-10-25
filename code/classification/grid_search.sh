@@ -23,7 +23,7 @@ fi
 
 # do the grid search
 #for k in $values_of_k
-for k in $solver_val
+for k in $values_of_k
 do
 
     echo $k
