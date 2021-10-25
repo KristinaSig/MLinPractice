@@ -6,7 +6,6 @@ mkdir -p data/classification
 values_of_k=("1 2 3 4 5 6 7 8 9 10")
 
 
-
 # different execution modes
 if [ $1 = local ]
 then
@@ -22,11 +21,8 @@ else
 fi
 
 # do the grid search
-#for k in $values_of_k
 for k in $values_of_k
 do
-
     echo $k
-
-    $cmd 'data/classification/clf_'"$k"'.pickle' --knn 4 $k -s 42 --accuracy --kappa
+    $cmd 'data/classification/clf_'"$k"'.pickle' --knn $k -s 42 --accuracy --kappa
 done
