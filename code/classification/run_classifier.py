@@ -88,6 +88,8 @@ else:   # manually set up a classifier
     elif args.random:
         #random uniform classifier
         print("    random uniform classifier")
+        log_param("classifier", "random uniform")
+        params = {"classifier": "random uniform"}
         classifier = DummyClassifier(strategy = "uniform", random_state = args.seed)
         	        
     elif args.knn is not None:
