@@ -2,8 +2,10 @@
 
 mkdir -p data/classification
 
-# specify hyperparameter values
-values_of_k=("1 2 3 4 5 6 7 8 9 10")
+
+#Hyperparameter for logistic Regression
+solver_val=("liblinear lbfgs sag saga")
+c_val=("1 10 100")
 
 
 # different execution modes
@@ -21,8 +23,13 @@ else
 fi
 
 # do the grid search
-for k in $values_of_k
+
+for k in $solver_val
+do
+for j in $c_val
 do
     echo $k
-    $cmd 'data/classification/clf_'"$k"'.pickle' --knn $k -s 42 --accuracy --kappa
+    echo $j
+    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic -lr_solver $k -lr_c $j -s 42 --accuracy --kappa
+done
 done

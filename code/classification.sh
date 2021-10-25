@@ -9,6 +9,6 @@ python -m code.classification.run_classifier data/dimensionality_reduction/train
 
 # run feature extraction on validation set (with pre-fit extractors)
 echo "  validation set"
-python -m code.classification.run_classifier data/dimensionality_reduction/validation.pickle -i data/classification/classifier.pickle --accuracy --kappa
+python -m code.classification.run_classifier data/dimensionality_reduction/validation.pickle -i data/classification/classifier.pickle --accuracy --kappa -ap
 
 # don't touch the test set, yet, because that would ruin the final generalization experiment!
