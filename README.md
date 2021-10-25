@@ -124,9 +124,22 @@ The script `run_classifier.py` can be used to train and/or evaluate a given clas
 Here, `input.pickle` is a pickle file of the respective data subset, produced by either `extract_features.py` or `reduce_dimensionality.py`. 
 
 By default, this data is used to train a classifier, which is specified by one of the following optional arguments:
+
 - `-m` or `--majority`: Majority vote classifier that always predicts the majority class.
 - `-r` or `--random`: Dummy classifier that makes predictions uniformly at random.
 - `-f` or `--frequency`: Dummy classifier that makes predictions based on the label frequency in the training data.
+- `-knn`: K nearest neighbour classifier that makes predictions based on the class of a specified k number of closest data points.
+- `--random_forest`: Random Forest classifier that makes predictions based on a vote of a set of decision trees.
+
+The hyperparameters are set to default, unless the following optional arguments are added to specify the preferred values:
+
+Random Forest
+
+- `-rf_n_estimators`: specifies the number of trees to be created in the forest. Accepted value is integer, default is 100.
+- `-rf_criterion`: specifies the function to measure the quality of the split. Accepted values are "gini" or "entropy", default is "gini".
+- `-rf_depth`: specifies the maximum depth of a tree. In case of None, the expansion continues while possible. Accepted value is integer, default is "None".
+- `-rf_bootstrap`: determines wheter bootstrap samples should be used for the trees, otherwise the whole dataset is used. Boolean value accepted, default is "True".
+- `-rf_class_weight`: specifies the weight that should be given to classes. Accepted values are "balanced" or "balanced_subsample", default is "None" which gives equal weight = 1 to all classes.
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 
@@ -134,9 +147,6 @@ The classifier is then evaluated, using the evaluation metrics as specified thro
 - `-k`or `--kappa`: Cohen's kappa (i.e., adjusting accuracy for probability of random agreement).
 - `-ap` or `--average_precision`: Average Precision 
 - `-rc` or `--precision_recall_curve`: Precision Recall Curve
-
-- `-a` or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
-- `-k` or `--kappa`: Cohen's kappa (i.e., adjusting accuracy for probability of random agreement).
 - `-f1` or `--f1_score`: F1 score (i.e., harmonic mean of the precision and recall).
 
 

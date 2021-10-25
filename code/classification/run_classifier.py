@@ -14,6 +14,7 @@ from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision_score, precision_recall_curve
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import make_pipeline
 import mlflow
 from mlflow import log_metric, log_param, set_tracking_uri
@@ -35,6 +36,12 @@ parser.add_argument("-lr_solver", type = str, help = "Logistic Regression solver
 parser.add_argument("-lr_c", type = int, help = "Logistic Regression penalty regulation parameter", default= 1.0)
 parser.add_argument("--svc", "--svc", action = "store_true", help = "Support Vector Classifier")
 parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier with the specified value of k", default = None)
+parser.add_argument("--random_forest", action = "store_true", help = "random forest classifier")
+parser.add_argument("-rf_n_estimators", type = int, help = "the number of trees in a forest", default = 100)
+parser.add_argument("-rf_criterion", help = "the function to measure the quality of the split, choose gini or entropy", default = "gini")
+parser.add_argument("-rf_depth", type = int, help = "the maximum depth of the tree - when None, the expansion continues as deep as it gets", default = None)
+parser.add_argument("-rf_bootstrap", type = bool, help = "determine if bootstrap samples are used for building the trees, if False the whole dataset is used", default = True)
+parser.add_argument("-rf_class_weight", help = "the weight value associated with the classes - when None, all classes have weight  - choose balanced or balanced_subsample", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
 parser.add_argument("-ap", "--average_precision", action = "store_true", help = "evaluate using average_precision_score")
@@ -101,8 +108,6 @@ else:   # manually set up a classifier
                   "solver": args.lr_solver,
                   "C": args.lr_c}
         classifier = LogisticRegression(solver=args.lr_solver, C = args.lr_c, random_state = args.seed)
-
-        
         
     elif args.svc:
         print("    SVM")
@@ -110,11 +115,37 @@ else:   # manually set up a classifier
         params = {"classifier": "svc"}
         classifier = SVC(class_weight='balanced')
             
-    
-    classifier.fit(data["features"], data["labels"].ravel())
-    log_param("dataset", "training")
+    elif args.random_forest:
+        print("    random forest classifier")
+        log_param("classifier", "random forest")
+        log_param("n_estimators", args.rf_n_estimators)
+        log_param("criterion", args.rf_criterion)
+        log_param("max_depth", args.rf_depth)
+        log_param("bootstrap", args.rf_bootstrap)
+        log_param("class_weight", args.rf_class_weight)
+        params = {"classifier": "random forest", 
+                  "n_estimators":args.rf_n_estimators, 
+                  "criterion": args.rf_criterion,
+                  "max_depth": args.rf_depth,
+                  "bootstrap": args.rf_bootstrap,
+                  "class_weight": args.rf_class_weight}
+        
+        n_est = args.rf_n_estimators
+        crit = args.rf_criterion
+        depth = args.rf_depth
+        bs = args.rf_bootstrap
+        c_weight = args.rf_class_weight
+        classifier = RandomForestClassifier(n_estimators = n_est, 
+                                            criterion = crit, 
+                                            max_depth = depth, 
+                                            bootstrap = bs, 
+                                            class_weight = c_weight, 
+                                            n_jobs = -1)
     
 
+    classifier.fit(data["features"], data["labels"].ravel())
+    log_param("dataset", "training")
+ 
 # now classify the given data
 prediction = classifier.predict(data["features"])
 
