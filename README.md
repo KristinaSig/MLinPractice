@@ -139,7 +139,7 @@ Random Forest
 - `-rf_criterion`: specifies the function to measure the quality of the split. Accepted values are "gini" or "entropy", default is "gini".
 - `-rf_depth`: specifies the maximum depth of a tree. In case of None, the expansion continues while possible. Accepted value is integer, default is "None".
 - `-rf_bootstrap`: determines wheter bootstrap samples should be used for the trees, otherwise the whole dataset is used. Boolean value accepted, default is "True".
-- `-rf_samples`: specifies the number of samples to draw from the set to train the base estimators. This parameter is only relevant when rf_bootstrap is set to True. Accepted value is integer, default is "None".
+- `-rf_class_weight`: specifies the weight that should be given to classes. Accepted values are "balanced" or "balanced_subsample", default is "None" which gives equal weight = 1 to all classes.
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 
