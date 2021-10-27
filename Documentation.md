@@ -20,10 +20,14 @@ This classifier treats both classes the same, meaning that even the underreprese
 
 ### Results
 
-These are the evaluation scores obtained after a run of the baseline classifiers, recorded scores are on the training (top) and validation (bottom) set:
+These are the evaluation scores obtained after a run of the baseline classifiers (for the sake of brevity we only list the results based on the validation set):
 
+  --- | Accuracy | Cohen's Kappa | Average Precision Score | F1 Score
+   ----------| --------| ----------| ---------- | ----------
+   Majority Classifier | 0.908 | 0.0 | 0.092 | 0.0
+   Random Uniform Classifier | 0.500 | 0.001 | 0.092 | 0.156
+   Frequency Distribution Classifier (already implemented) | 0.501 | -8.233 | 0.092 | 0.155
 
-<TABLE HERE>
 
 
 ### Interpretation
@@ -42,7 +46,10 @@ As with just about any natural language data, the raw input tells the model rela
 
 #### Text cleaner
   
-<TABLE HERE>
+Input tweet | Clean tweet 
+--- | ---
+'Courses@CRG: Containers &amp; #Nextflow  Slow-paced hands-on course designed for absolute beginners who want to start using #containers and @nextflowio pipelines to achieve #reproducibility of data analysis #VEISris3cat #FEDERrecerca #Docker #CloudComputing  ➡️ https://t.co/HxbfIdZVyl  https://t.co/1kGRujM5vB' | 'Courses Containers amp   Slowpaced handson course designed for absolute beginners who want to start using  and  pipelines to achieve  of data analysis       	' 
+'📢Join us on the 2⃣9⃣, from 14:30 - 15:30 for the @Ener_Community Monthly #Methane Monday organised in cooperation with GIE and @marcogaz_EU   You will learn all about: - #CH4emissions reporting - Energy Community and EU #CH4 emissions data analysis  📩👇 https://t.co/d33AIGcpn9' | 'Join us on the 29 from 1430  1530 for the  Monthly  Monday organised in cooperation with GIE and   You will learn all about   reporting  Energy Community and EU  emissions data analysis ‘
   
 
 #### Interpretation of the Text Cleaner output
@@ -50,7 +57,10 @@ Admittedly, our current method for extracting the plain text could be further pe
 
 #### Sentiment analyzer
 
-<TABLE HERE>
+Input tweet (cleaned) | Output scores
+--- | ---
+'Pence traveled to Iowa to hail the states success story in getting back to business amid the COVID19 crisis. But the Sioux City metro area had the most cases per capita of any county in the nation according to a data analysis Sunday by The New York Times.' | {'neg': 0.051, 'neu': 0.879, 'pos': 0.07, 'compound': -0.0129}
+'ICYMI Dos And Donts Of Data Analysis And Reporting   mobilefriendly videos coming soon' | {'neg': 0.0, 'neu': 1.0, 'pos': 0.0, 'compound': 0.0}
   
 #### Interpretation of the Sentiment Scores
 It is highly unlikely that a tweet would obtain a high score on both positive and negative sentiment, hence the simple compound score should be sufficient and also most useful for the overall evaluation, but it is possible that one of the sentimental types has higher informative value when it comes to predicting the popularity of tweets. For that reason we decided to access all four scores at this stage, so that we can have a look at the different data distributions and then make an informed decision about which one(s) to take.
@@ -62,7 +72,10 @@ In total, we have decided to implement five features. The following sections wil
 #### Average tweet length
 The hypothesis behind the creation of this feature is that the length of a tweet can be a factor in deciding its virality. It is created on the basis of the character length. It considers the number of characters in a tweet and compares it with the average length of tweets in the complete dataset. That way we establish a baseline that is typical for the subset of tweets that consider our task at hand. In case the length of character for that particular tweet is more than the average length of a tweet, this flag is tagged 1, else 0. Below is a short demonstrative example, assuming the average length of 76:
   
-<TABLE HERE>
+Tweet | Character length | avg_len_flag
+--- | --- | ---
+‘Domestic terror incidents in US reached high not seen in 25 years, analysis shows’ | 91 | 1
+‘Life is short yet sweet’ | 23 | 0
   
   
 <IMAGE HERE> ....adjust the graph to show proportions better?
@@ -122,13 +135,20 @@ Since we only implemented a handful of features, neither of which is highly dime
 
 ### Results and Interpretation
 
-The mutual information scores for our scores and the virality class were as follows (rounded to the decimal places):
+The mutual information scores for our scores and the virality class were as follows:
   
-<TABLE HERE>
+  Feature | Mutual Information Score
+  --- | ---
+  Character length | 0.011
+  Average tweeth length flag | 0.001
+  Hashtag count | 0.008
+  Mentiones count | 0.004
+  Media | 0.027
+  Sentiment_score | 0.005
 
 According to these scores, we can order our features based on the corresponding information gain: 
 
-media >  character length >  hashtag count >  sentiment score >  mentions > average character length flag
+media >  character length >  hashtag count >  sentiment score >  mentions > average tweet length flag
 
 The winning position of the media feature did not come as a surprise for us. Sharing graphics can be quite characteristic for tweets regarding the topics of data science, as well as external links to useful information and sources. Likewise, entertaining memes or videos are probably very common among the most popular tweets in general and we imagine that some portion of the viral tweets in our dataset also falls into this category. In any case, it should be noted that the scores are generally rather low, so our expectations for the classifier performance are not overly optimistic. Since the pre-coded feature of plain character length seems to be more informative than our implemented variation, we decided to also count it into our final feature space.
 
