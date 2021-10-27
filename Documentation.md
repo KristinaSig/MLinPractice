@@ -77,8 +77,9 @@ Tweet | Character length | avg_len_flag
 ‘Domestic terror incidents in US reached high not seen in 25 years, analysis shows’ | 91 | 1
 ‘Life is short yet sweet’ | 23 | 0
   
-  
-<IMAGE HERE> ....adjust the graph to show proportions better?
+ 
+ 
+![alt text](<here url> "Average tweet length flag distributions")
 *Graph 1: Average tweet length flag, distributions between the non-viral (False) and viral (True) class.*
   
 #### Hashtag count
