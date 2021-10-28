@@ -177,9 +177,7 @@ Random Forest Classifier combines the systematic approach of a single decision t
 
 ### Results
 
-The big finale begins: What are the evaluation results you obtained with your
-classifiers in the different setups? Do you overfit or underfit? For the best
-selected setup: How well does it generalize to the test set?
+
 
 We experimented with various classifiers such as Logistic Regression, Random Forest and SVC. The output of SVC was realized to be very computationally expensive in terms of time. So, we proceeded with the remaining 2 classifiers i.e. Logistic Regression and Random Forest. The results from Logistic Classifier were not drastically better than the Baseline classifier (with Validation Accuracy ~90%). Hence we finalized and implemented the Random Forest Classifier.
 We implemented GridSearch on the mentioned below variations of parameters - 
@@ -203,9 +201,6 @@ balanced | entropy | 50 | 50 | --  | 0.1306 | 0.2326 | 0.8048
 
 ### Interpretation
 
-Which hyperparameter settings are how important for the results?
-How good are we? Can this be used in practice or are we still too bad?
-Anything else we may have learned?
 
 
 Finally on the basis of the output from grid search we have decided to implement mentioned below parameters values on our Test set:
