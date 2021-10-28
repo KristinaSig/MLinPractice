@@ -79,7 +79,7 @@ Tweet | Character length | avg_len_flag
   
  
  
-![alt text](https://github.com/KristinaSig/MLinPractice/tree/Documentation/charts_images/Avg_tweet_len_flag.png "Average tweet length flag distributions")
+![alt text](https://github.com/KristinaSig/MLinPractice/blob/Documentation/charts_images/Avg_tweet_len_flag.png "Average tweet length flag distributions")
 *Graph 1: Average tweet length flag, distributions between the non-viral (False) and viral (True) class.*
   
 #### Hashtag count
