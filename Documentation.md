@@ -206,3 +206,18 @@ balanced | entropy | 50 | 50 | --  | 0.1306 | 0.2326 | 0.8048
 Which hyperparameter settings are how important for the results?
 How good are we? Can this be used in practice or are we still too bad?
 Anything else we may have learned?
+
+
+Finally on the basis of the output from grid search we have decided to implement mentioned below parameters values on our Test set:
+Number of trees = 100
+Values Criterion = Gini
+Depth of Trees = None
+Bootstrap Value = True
+Weight Parameters = None
+
+When these parameters implemented on the test set, the output is - 
+Accuracy = 89%
+Cohen Kappa = 0.1270
+Average_Precision_Score = 0.1185
+F1 Score = 0.1680
+
