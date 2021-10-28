@@ -1,4 +1,4 @@
-# Documentation - Machine Learning in Practice - Group "The Learneres"
+# Documentation - Machine Learning in Practice - Group "The Learners"
 
 In our project, we focused on the task of refining the pipeline of a machine learning model that learns to predict virality of tweets. The training data set consisted of a pre-given subset of tweets limited mainly to the topics of data science, data analysis and data visualization.
 In the following lines, we will outline our design decisions, such as the choice of metrics, features, classifiers, parameters, following their performance and interpretations. Our additional improvements considered preprocessing, feature extraction, classification and evaluation, some analysis of the extracted features was also carried out. 
@@ -79,7 +79,7 @@ Tweet | Character length | avg_len_flag
   
  
  
-![alt text](<here url> "Average tweet length flag distributions")
+![alt text](https://github.com/KristinaSig/MLinPractice/tree/Documentation/charts_images/Avg_tweet_len_flag.png "Average tweet length flag distributions")
 *Graph 1: Average tweet length flag, distributions between the non-viral (False) and viral (True) class.*
   
 #### Hashtag count
