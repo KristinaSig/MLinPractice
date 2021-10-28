@@ -181,6 +181,17 @@ The big finale begins: What are the evaluation results you obtained with your
 classifiers in the different setups? Do you overfit or underfit? For the best
 selected setup: How well does it generalize to the test set?
 
+We experimented with various classifiers such as Logistic Regression, Random Forest and SVC. The output of SVC was realized to be very computationally expensive in terms of time. So, we proceeded with the remaining 2 classifiers i.e. Logistic Regression and Random Forest. The results from Logistic Classifier were not drastically better than the Baseline classifier (with Validation Accuracy ~90%). Hence we finalized and implemented the Random Forest Classifier.
+We implemented GridSearch on the mentioned below variations of parameters - 
+
+Number of trees = (50, 100)
+Values Criterion = (Gini, Entropy)
+Depth of Trees = (10, 50, 100)
+Bootstrap Value = (True)
+Weight Parameters = (balanced, balanced_subsample)
+
+In the table below, a snaphot of output from the grid search of Random Forest Classifier.
+
 class_weight | criterion | max_depth | n_estimators | Average_precision_score | Cohen_kappa | F1 score | accuracy
   --- | --- | --- | --- | --- | --- | --- | --- |
 None | gini | None | 100 | 0.1150 | 0.1161 | 0.1566 | 0.8968
