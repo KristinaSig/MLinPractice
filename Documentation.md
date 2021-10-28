@@ -181,6 +181,15 @@ The big finale begins: What are the evaluation results you obtained with your
 classifiers in the different setups? Do you overfit or underfit? For the best
 selected setup: How well does it generalize to the test set?
 
+class_weight | criterion | max_depth | n_estimators | Average_precision_score | Cohen_kappa | F1 score | accuracy
+  --- | --- | --- | --- | --- | --- | --- | --- |
+None | gini | None | 100 | 0.11500275624914945 | 0.11617719305110408 | 0.15667311411992266 | 0.8968256651228829
+balanced | gini | 50 | 50 | --  | 0.1289751219536166 | 0.2304742684157417 | 0.8066495385551536
+balanced_subsample | entropy | 50 | 50 | --  | 0.12914229144354486 | 0.2307279076013967 | 0.8063621919475339
+balanced_subsample | entropy | 50 | 100 | --  | 0.12903245761895646 | 0.23065046653688664 | 0.8062776782394104
+balanced | entropy | 50 | 100 | --  | 0.13012276506753762 | 0.23209054593874834 | 0.805043778100808
+balanced | entropy | 50 | 50 | --  | 0.13065318194933662 | 0.23265089072055306 | 0.8048747506845609
+
 ### Interpretation
 
 Which hyperparameter settings are how important for the results?
