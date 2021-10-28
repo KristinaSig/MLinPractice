@@ -216,7 +216,7 @@ Bootstrap Value = True
 Weight Parameters = None
 
 When these parameters implemented on the test set, the output is - 
-Accuracy = 89%
+Accuracy = 89% |
 Cohen Kappa = 0.1270
 Average_Precision_Score = 0.1185
 F1 Score = 0.1680
