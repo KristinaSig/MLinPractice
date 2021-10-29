@@ -141,6 +141,11 @@ Random Forest
 - `-rf_bootstrap`: determines wheter bootstrap samples should be used for the trees, otherwise the whole dataset is used. Boolean value accepted, default is "True".
 - `-rf_class_weight`: specifies the weight that should be given to classes. Accepted values are "balanced" or "balanced_subsample", default is "None" which gives equal weight = 1 to all classes.
 
+Logistic Regression
+
+- `lr_solver`: specifies the solver of your choice. Accepted values are "liblinear", "lbfgs", sag", "saga", and default value is "lbfgs".
+- `lr_c`: specifies the penalty regulation parameter. Accepted value is int, default value is "1" 
+
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
