@@ -10,8 +10,7 @@ Created on Wed Sep 29 14:23:48 2021
 
 import argparse, pickle
 from sklearn.dummy import DummyClassifier
-
-from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision_score, precision_recall_curve
+from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, average_precision_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -31,21 +30,21 @@ parser.add_argument("-i", "--import_file", help = "import a trained classifier f
 parser.add_argument("-m", "--majority", action = "store_true", help = "majority class classifier")
 parser.add_argument("-r", "--random", action = "store_true", help = "random uniform classifier")
 parser.add_argument("-f", "--frequency", action = "store_true", help = "label frequency classifier")
-parser.add_argument("-lr", "--logistic", action = "store_true", help = "Logistic Regression")
-parser.add_argument("-lr_solver", type = str, help = "Logistic Regression solver", default = "lbfgs")
-parser.add_argument("-lr_c", type = int, help = "Logistic Regression penalty regulation parameter", default= 1.0)
-parser.add_argument("--svc", "--svc", action = "store_true", help = "Support Vector Classifier")
+parser.add_argument("-lr", "--logistic", action = "store_true", help = "logistic regression classifier")
+parser.add_argument("-lr_solver", type = str, help = "logistic regression solver parameter, default is lbfgs", default = "lbfgs")
+parser.add_argument("-lr_c", type = float, help = "logistic regression penalty regulation parameter - default is 1, stronger value means stronger regularization", default= 1.0)
+parser.add_argument("-lr_class_weight", help = "logistic regression class weight parameter - input as dictionary, when None all classes have weight 1", default = None)
+parser.add_argument("--svc", action = "store_true", help = "support vector classifier")
 parser.add_argument("--knn", type = int, help = "k nearest neighbor classifier with the specified value of k", default = None)
 parser.add_argument("--random_forest", action = "store_true", help = "random forest classifier")
 parser.add_argument("-rf_n_estimators", type = int, help = "the number of trees in a forest", default = 100)
 parser.add_argument("-rf_criterion", help = "the function to measure the quality of the split, choose gini or entropy", default = "gini")
 parser.add_argument("-rf_depth", type = int, help = "the maximum depth of the tree - when None, the expansion continues as deep as it gets", default = None)
 parser.add_argument("-rf_bootstrap", type = bool, help = "determine if bootstrap samples are used for building the trees, if False the whole dataset is used", default = True)
-parser.add_argument("-rf_class_weight", help = "the weight value associated with the classes - when None, all classes have weight  - choose balanced or balanced_subsample", default = None)
+parser.add_argument("-rf_class_weight", help = "the weight value associated with the classes - when None, all classes have weight 1 - choose balanced or balanced_subsample", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
 parser.add_argument("-ap", "--average_precision", action = "store_true", help = "evaluate using average_precision_score")
-parser.add_argument("-pr", "--precision_recall_curve", action = "store_true", help = "evaluate using precision_recall_curve")
 parser.add_argument("-f1", "--f1_score", action = "store_true", help = "evaluate using F1 score")
 parser.add_argument("--log_folder", help = "where to log the mlflow results", default = "data/classification/mlflow")
 
@@ -86,13 +85,14 @@ else:   # manually set up a classifier
         classifier = DummyClassifier(strategy = "stratified", random_state = args.seed)
     
     elif args.random:
-        #random uniform classifier
+        # random uniform classifier
         print("    random uniform classifier")
         log_param("classifier", "random uniform")
         params = {"classifier": "random uniform"}
         classifier = DummyClassifier(strategy = "uniform", random_state = args.seed)
         	        
     elif args.knn is not None:
+        # K nearest neighbours classifier
         print("    {0} nearest neighbor classifier".format(args.knn))
         log_param("classifier", "knn")
         log_param("k", args.knn)
@@ -102,22 +102,30 @@ else:   # manually set up a classifier
         classifier = make_pipeline(standardizer, knn_classifier)
     
     elif args.logistic:
+        # logistic regression classifier
+        
         print("    Logisitc Regression")
         log_param("classifier", "logistic")
         log_param("solver", args.lr_solver)
         log_param("C", args.lr_c)
+        log_param("class_weight", args.lr_class_weight)
         params = {"classifier": "logistic",
                   "solver": args.lr_solver,
-                  "C": args.lr_c}
-        classifier = LogisticRegression(solver=args.lr_solver, C = args.lr_c, random_state = args.seed)
+                  "C": args.lr_c,
+                  "class_weight": args.lr_class_weight}
+        classifier = LogisticRegression(solver=args.lr_solver, C = args.lr_c, class_weight = args.lr_class_weight, random_state = args.seed)
         
     elif args.svc:
+        # support vector classifier
+        
         print("    SVM")
         log_param("classifier", "svc")
         params = {"classifier": "svc"}
         classifier = SVC(class_weight='balanced')
             
     elif args.random_forest:
+        # random forest classifier
+        
         print("    random forest classifier")
         log_param("classifier", "random forest")
         log_param("n_estimators", args.rf_n_estimators)
@@ -159,8 +167,6 @@ if args.kappa:
     evaluation_metrics.append(("Cohen_kappa", cohen_kappa_score))
 if args.average_precision:
     evaluation_metrics.append(("Average_precision_score", average_precision_score))
-if args.precision_recall_curve:
-    evaluation_metrics.append(("Precision_Recall_Curve", precision_recall_curve))
 if args.f1_score:
     evaluation_metrics.append(("F1 score", f1_score))
 

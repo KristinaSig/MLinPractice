@@ -9,32 +9,30 @@ Created on Sat Oct  9 19:03:13 2021
 import unittest
 import pandas as pd
 from code.preprocessing.text_cleaner import TextCleaner
+from code.util import COLUMN_TWEET, COLUMN_TWEET_CLEAN
 
 class Text_CleanerTest(unittest.TestCase):
     
     def setUp(self):
-        self.INPUT_COLUMN = "input"
-        self.OUTPUT_COLUMN = "output"
-        self.cleaner = TextCleaner(self.INPUT_COLUMN, self.OUTPUT_COLUMN)
-        
-    def test_boolean(self):
-        self.assertEqual(True, not False)
+        self.COLUMN_TWEET = COLUMN_TWEET
+        self.COLUMN_TWEET_CLEAN = COLUMN_TWEET_CLEAN
+        self.cleaner = TextCleaner()
         
     def test_input_columns(self):
-        self.assertEqual(self.cleaner._input_columns, [self.INPUT_COLUMN])
+        self.assertEqual(self.cleaner._input_columns, [self.COLUMN_TWEET])
         
     def test_output_column(self):
-        self.assertEqual(self.cleaner._output_column, self.OUTPUT_COLUMN)
+        self.assertEqual(self.cleaner._output_column, self.COLUMN_TWEET_CLEAN)
     
     def test_cleaning_single_tweet(self):
         input_tweet = "$%& This is an example tweet with @preprocessor. #funwithunittests http://skgjdajkajdklja;kja;kjda"
         output_tweet = " This is an example tweet with   "
        
         input_df = pd.DataFrame()
-        input_df[self.INPUT_COLUMN] = [input_tweet]
+        input_df[self.COLUMN_TWEET] = [input_tweet]
         
         cleaned_text = self.cleaner.fit_transform(input_df)
-        self.assertEqual(output_tweet, cleaned_text[self.OUTPUT_COLUMN][0])
+        self.assertEqual(output_tweet, cleaned_text[self.COLUMN_TWEET_CLEAN][0])
     
     def text_cleaning_multiple_tweets(self):
         tweet_1 = "$%& This is an example tweet with @preprocessor."
@@ -42,13 +40,13 @@ class Text_CleanerTest(unittest.TestCase):
         output_tweets = [" This is an example tweet with ", "This is another tweet  "]
         
         input_df = pd.DataFrame()
-        input_df[self.INPUT_COLUMN] = [tweet_1, tweet_2]
+        input_df[self.COLUMN_TWEET] = [tweet_1, tweet_2]
         
         output_df = pd.DataFrame()
-        output_df[self.OUTPUT_COLUMN] = output_tweets
+        output_df[self.COLUMN_TWEET_CLEAN] = output_tweets
         
         cleaned_text = self.cleaner.fit_transform(input_df)
-        self.assertEqual(output_df, cleaned_text[self.OUTPUT_COLUMN])       
+        self.assertEqual(output_df, cleaned_text[self.COLUMN_TWEET_CLEAN])       
         
 if __name__ == "__main__":
     unittest.main()

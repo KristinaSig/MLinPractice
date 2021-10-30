@@ -10,9 +10,9 @@ python -m nltk.downloader all
 echo "  creating labels"
 python -m code.preprocessing.create_labels data/raw/ data/preprocessing/labeled.csv
 
-# other preprocessing (removing punctuation etc.)
+# other preprocessing (clean text, evaluate sentiment)
 echo "  general preprocessing"
-python -m code.preprocessing.run_preprocessing data/preprocessing/labeled.csv data/preprocessing/preprocessed.csv --clean_text --tokenize --analyze_sentiment -e data/preprocessing/pipeline.pickle
+python -m code.preprocessing.run_preprocessing data/preprocessing/labeled.csv data/preprocessing/preprocessed.csv --clean_text --analyze_sentiment -e data/preprocessing/pipeline.pickle
 
 # split the data set
 echo "  splitting the data set"

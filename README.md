@@ -56,11 +56,14 @@ The script takes the following optional parameters:
 The script `run_preprocessing.py` is used to run various preprocessing steps on the raw data, producing additional columns in the csv file. It is executed as follows:
 ```python -m code.preprocessing.run_preprocessing path/to/input.csv path/to/output.csv```
 Here, `input.csv` is a csv file (ideally the output of `create_labels.py`), while `output.csv` is the csv file where the output will be written.
+
 The preprocessing steps to take can be configured with the following flags:
-- `c` or `--clean_text`: Clean raw text off non-linguistically relevant patterns, such as hashtags, urls, mentions. Input column is by default the raw tweet. 
-- `-p` or `--punctuation`: A new column "tweet_no_punctuation" is created, where all punctuation is removed from the original tweet. (See `code/preprocessing/punctuation_remover.py` for more details)
-- `-t`or `--tokenize`: Tokenize the given column (can be specified by `--tokenize_input`, default = "tweet"), and create new column with suffix "_tokenized" containing tokenized tweet.
-- `s` or `--analyze_sentiment`: Assign a sentiment score to every tweet, ranging from -1 to 1 - the closer to 1, the more positive the tweet. Input column is set to default "tweet_clean", can be specified by `--sentiment_input`.
+- `c` or `--clean_text`: A new column "tweet_clean" is created, where the text is cleaned off non-linguistically relevant patterns, such as hashtags, urls, mentions. (See `code/preprocessing/text_cleaner.py` for more details)
+- `s` or `--analyze_sentiment`: Evaluate sentiment polarity and intensity of each tweet, outputing a set of four scores: negative, neutral, positive and compound. Input column is set to default "tweet_clean", can be specified by `--sentiment_input`. (See `code/preprocessing/sentiment_analyzer.py` for more details)
+
+_NOTE: Following are the original preprocessing steps, which we decided not to implement into our next steps but which may be useful in possible future developments:_
+  - `-p` or `--punctuation`: A new column "tweet_no_punctuation" is created, where all punctuation is removed from the original tweet. (See `code/preprocessing/punctuation_remover.py` for more details) 
+  - `-t`or `--tokenize`: Tokenize the given column (can be specified by `--tokenize_input`, default = "tweet"), and create new column with suffix "_tokenized" containing tokenized tweet. (see `code/preprocessing/tokenizer.py`)
 
 Moreover, the script accepts the following optional parameters:
 - `-e` or `--export` gives the path to a pickle file where an sklearn pipeline of the different preprocessing steps will be stored for later usage.
@@ -88,7 +91,12 @@ Here, `input.csv` is the respective training, validation, or test set file creat
 - `"labels"`: a numpy array containing the target labels for the feature vectors (rows are training examples, only column is the label)
 
 The features to be extracted can be configured with the following optional parameters:
-- `-c` or `--char_length`: Count the number of characters in the "tweet" column of the data frame. (see code/feature_extraction/character_length.py)
+- `-c` or `--char_length`: Count the number of characters in the "tweet" column of the data frame. (see `code/feature_extraction/character_length.py`)
+- `-alf` or `--avg_len_flag`: Give a binary flag to the tweet, indicating whether its plain text is longer than average within the data set. (see `code/feature_extraction/avg_len_flag.py`)
+- `-hc` or `--hashtag_count`: Count the number of hashtags extracted from each tweet into the "hashtags" column. (see `code/feature_extraction/hashtags_count.py`)
+- `-mc` or `--mentions_count`: Count the number of mentions extracted from each tweet into the "mentions". (see `code/feature_extraction/mentions_count.py`)
+- `-m` or `--media`: Give a binary flag to the tweet, indicating whether there is any media attached to the tweet. (see `code/feature_extraction/media.py`)
+- `-s` or `--sentiment_score`: Extract the compound sentiment score from the obtained scores in the column "sentiment_scores". (see `code/feature_extraction/sentiment_score.py`)
 
 Moreover, the script support importing and exporting fitted feature extractors with the following optional arguments:
 - `-i` or `--import_file`: Load a configured and fitted feature extraction from the given pickle file. Ignore all parameters that configure the features to extract.
@@ -129,9 +137,17 @@ By default, this data is used to train a classifier, which is specified by one o
 - `-r` or `--random`: Dummy classifier that makes predictions uniformly at random.
 - `-f` or `--frequency`: Dummy classifier that makes predictions based on the label frequency in the training data.
 - `-knn`: K nearest neighbour classifier that makes predictions based on the class of a specified k number of closest data points.
+- `-lr` or `--logistic`: Logistic regression classifier that makes predictions by scoring cases based on the data about earlier outcomes involving the same input criteria.
 - `--random_forest`: Random Forest classifier that makes predictions based on a vote of a set of decision trees.
+- `--svc`: Support vector classifier that transforms the data in order to find a division boundary between the two classes.
 
-The hyperparameters are set to default, unless the following optional arguments are added to specify the preferred values:
+The hyperparameters are set to default, unless the following optional arguments are added to specify the preferred values of certain classifiers:
+
+Logistic Regression
+
+- `lr_solver`: specifies the solver of your choice. Accepted values are "liblinear", "lbfgs", sag", "saga", and default value is "lbfgs".
+- `lr_c`: specifies the penalty regulation parameter. Accepted value is int, default value is "1".
+- `lr_class_weight`: specifies the weights associated with the classes. Accepted values are dictionaries in the form {class_label: weight} or "balanced", default value is "None".
 
 Random Forest
 
@@ -141,12 +157,12 @@ Random Forest
 - `-rf_bootstrap`: determines wheter bootstrap samples should be used for the trees, otherwise the whole dataset is used. Boolean value accepted, default is "True".
 - `-rf_class_weight`: specifies the weight that should be given to classes. Accepted values are "balanced" or "balanced_subsample", default is "None" which gives equal weight = 1 to all classes.
 
+
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
 - `-k`or `--kappa`: Cohen's kappa (i.e., adjusting accuracy for probability of random agreement).
 - `-ap` or `--average_precision`: Average Precision 
-- `-rc` or `--precision_recall_curve`: Precision Recall Curve
 - `-f1` or `--f1_score`: F1 score (i.e., harmonic mean of the precision and recall).
 
 
@@ -159,7 +175,9 @@ Using the same seed across multiple runs ensures reproducibility of the results.
 
 ## Application
 
-All python code for the application demo can be found in `code/application/`.
+_NOTE: this part has not been updated to include additional features beyond the input column "tweet", hence is not currently able to make predictions based on our complete model. For a workable version of the application, training with the feature space NOT containing the features of hashtag counts, mentions counts and media is necessary._
+
+All python code for the application demo can be found in `code/application/`. 
 
 The script `application.py` provides a simple command line interface, where the user is asked to type in their prospective tweet, which is then analyzed using the trained ML pipeline.
 The script can be invoked as follows:
