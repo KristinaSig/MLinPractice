@@ -16,18 +16,23 @@ from code.util import COLUMN_HASHTAGS
 class HashtagCountFeature(FeatureExtractor):
     """Creates a feature that represents the number of hashtags extracted from the tweets."""
     
-    # initialize with the input column that includes the extracted hashtags
     def __init__(self):
+        """Initialize with already pre-determined input and output columns."""
+        
         super().__init__([COLUMN_HASHTAGS], COLUMN_HASHTAGS + "_count")
-            
-    
+
+    # don't need to fit, so don't overwrite _set_variables()
+              
     def _get_values(self, inputs):
-   
+        """Get hashtag counts."""
+        
         counts = []
         for i in inputs[0]:
+            
             # first, transform each string input into a list 
             input_list = ast.literal_eval(i)
             
+            # get the numebr of hashtags in each list
             tag_count = len(input_list)
             counts.append(tag_count)
         

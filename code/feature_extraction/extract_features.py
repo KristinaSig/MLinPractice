@@ -57,7 +57,7 @@ else:    # need to create FeatureCollector manually
         # count of hashtags extracted in the hashtags column
         features.append(HashtagCountFeature())
     if args.mentions_count:
-        # count of mentions extracted in the hashtags column
+        # count of mentions extracted in the mentions column
         features.append(MentionsCountFeature())
     if args.media:
         # state the presence of any media in the tweet
