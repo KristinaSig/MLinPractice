@@ -1,7 +1,7 @@
 # Documentation - Machine Learning in Practice - Group "The Learners"
 
 In our project, we focused on the task of refining the pipeline of a machine learning model that learns to predict virality of tweets. The training data set consisted of a pre-given subset of tweets limited mainly to the topics of data science, data analysis and data visualization.
-In the following lines, we will outline our design decisions, such as the choice of metrics, features, classifiers, parameters, following their performance and interpretations. Our additional improvements considered preprocessing, feature extraction, classification and evaluation, some analysis of the extracted features was also carried out. 
+In the following lines, we will outline our design decisions such as the choice of metrics, features, classifiers, parameters, following their performance and interpretations. Our additional improvements considered preprocessing, feature extraction, classification and evaluation, some analysis of the extracted features was also carried out. 
 
 ## Evaluation
 
@@ -32,15 +32,15 @@ These are the evaluation scores obtained after a run of the baseline classifiers
 
 ### Interpretation
 
-It is to be expected that a majority classifier will do exceptionally well with such an unbalanced dataset as ours. Exactly for that reason, it is wise to also consider metrics that can help us determine the reliability and validity of the measures, such as Cohen’s Kappa and the F1 score. Clearly, predicting one class perfectly while completely disregarding the existence of another is not the goal of a reliable classifier. While a random classifier offers some form of balance for the less represented class, if we run it multiple times on different data splits, we can easily see that the behavior is very unpredictable and the scores mostly low.  It could certainly happen, that a random classifier gets many instances correct by chance, but since the class distribution does not correspond to reality, the scores will never get over a certain threshold, no matter how many times we try or even if we multiply the sample to obtain more training data. The frequency distribution can therefore be understood as a middle ground between the majority and the randomness factors. In theory, it is possible to achieve a perfect score, this is however extremely unlikely. Instead, we see that it can prove to be even less reliable than would be expected by chance, as indicated by the negative Cohen’s Kappa for the validation set. 
+It is to be expected that a majority classifier will do exceptionally well with such an unbalanced dataset as ours. Exactly for that reason, it is wise to also consider metrics that can help us determine the reliability and validity of the measures, such as Cohen’s Kappa and the F1 score. Clearly, predicting one class perfectly while completely disregarding the existence of another is not the goal of a reliable classifier. While a random classifier offers some form of balance for the less represented class, if we run it multiple times on different data splits, we can easily see that the behavior is very unpredictable and the scores mostly low.  It could certainly happen that a random classifier gets many instances correct by chance, but since the class distribution does not correspond to reality, the scores will never get over a certain threshold no matter how many times we try or even if we multiply the sample to obtain more training data. The frequency distribution can therefore be understood as a middle ground between the majority and the randomness factors. In theory, it is possible to achieve a perfect score, this is however extremely unlikely. Instead, we see that it can prove to be even less reliable than would be expected by chance, as indicated by the negative Cohen’s Kappa for the validation set. 
   
-Overall, we can conclude that although the imbalance in the data set may provide some protection against getting good results purely with randomness, we need to keep the imbalance in mind and focus on evening out the representations by other means. We didn’t have the resources to create more positive examples and decided against cutting down the underrepresented class, since our dataset is not overly big. Instead, we tried a number of parameter combinations with our classifiers, which also target to tackle the class imbalances.
+Overall, we can conclude that although the imbalance in the data set may provide some protection against getting good results purely with randomness, we need to keep the imbalance in mind and focus on evening out the representations by other means. We didn’t have the resources to create more positive examples and decided against cutting down the underrepresented clas because our dataset is not overly big. Instead, we tried a number of parameter combinations with our classifiers, which also target to tackle the class imbalances.
 
 ## Preprocessing
 
 ### Design Decisions
 
-As with just about any natural language data, the raw input tells the model relatively very little. For our purposes and the features that we decided to implement, we first needed to rid the text of the irrelevant features, such as hashtags attached to the tweets, mentions, url links and other typically non-linguistic features. Additionally, we plugged the cleaned tweets into the pre-trained sentiment analyzing tool form the nltk library - [VADER](https://www.nltk.org/_modules/nltk/sentiment/vader.html "Source Code of the VADER tool") (Valence Aware Dictionary for Sentiment Reasoning), in order to gain insights into the polarity and emotional intensity of the tweets. The algorithm returns a dictionary of four values – negative, neutral, positive and compound, with the first three representing ratios of proportions of the corresponding sentiment, thus summing to 1 (the closer to 1, the more dominant is the given sentiment) and the latter provides a normalized weighted score ranging from -1 to 1 (the closer to 1, the more positive the sentiment), representing a balanced value calculated from the other three components.
+As with just about any natural language data, the raw input tells the model relatively very little. For our purposes we decided to implement, we first needed to rid the text of the irrelevant features, such as hashtags attached to the tweets, mentions, url links and other typically non-linguistic features. These were already extracted into their corresponding columns in the original dataset, so they do not have an added value for us within the raw tweets. We also plugged the cleaned tweets into the pre-trained sentiment analyzing tool form the nltk library - [VADER](https://www.nltk.org/_modules/nltk/sentiment/vader.html "Source Code of the VADER tool") (Valence Aware Dictionary for Sentiment Reasoning), in order to gain insights into the polarity and emotional intensity of the tweets. The algorithm returns a dictionary of four values – negative, neutral, positive and compound, with the first three representing ratios of proportions of the corresponding sentiment, thus summing to 1 (the closer to 1, the more dominant is the given sentiment) and the latter provides a normalized weighted score ranging from -1 to 1 (the closer to 1, the more positive the sentiment), representing a balanced value calculated from the other three components.
 
 ### Results
 
@@ -67,7 +67,7 @@ It is highly unlikely that a tweet would obtain a high score on both positive an
 
 ## Feature Extraction
 
-In total, we have decided to implement five features. The following sections will outline the main decisions and explain our reasoning.
+In total, we have decided to implement five additional features. The following sections will outline the main decisions and explain our reasoning.
 
 #### Average tweet length
 The hypothesis behind the creation of this feature is that the length of a tweet can be a factor in deciding its virality. It is created on the basis of the character length. It considers the number of characters in a tweet and compares it with the average length of tweets in the complete dataset. That way we establish a baseline that is typical for the subset of tweets that consider our task at hand. In case the length of character for that particular tweet is more than the average length of a tweet, this flag is tagged 1, else 0. Below is a short demonstrative example, assuming the average length of 76:
@@ -78,9 +78,10 @@ Tweet | Character length | avg_len_flag
 ‘Life is short yet sweet’ | 23 | 0
   
  
+ *Graph 1: Average tweet length flag, distributions between the non-viral (False) and viral (True) class.*
  
 ![alt text](https://github.com/KristinaSig/MLinPractice/blob/Documentation/charts_images/Avg_tweet_len_flag.png "Average tweet length flag distributions")
-*Graph 1: Average tweet length flag, distributions between the non-viral (False) and viral (True) class.*
+
   
 #### Hashtag count
 Hashtags are a popular way for users on social media to tag their post to a specific topic. Likewise, it allows users to follow the posts on their topics of interest, including also of users outside one’s network. This leads us to think that the more hashtags a post contains, the more views it is likely to hit and with that, the chance of a tweet being liked or shared also increases.
@@ -109,7 +110,7 @@ As it turns out, in our sample, the use of the mentions feature is not as popula
 #### Media
 The number of characters allowed in a single tweet is limited to 280 unicode characters ([source](https://developer.twitter.com/en/docs/counting-characters)). It is meant to encourage users to be concise and come straight to the point in their messages, however, it can also pose a challenge. According to the common saying “a picture speaks a thousand words”, we think that people often resonate more with visual or multisensory messages rather than simple text. For that reason we also decided to map the presence of media, including photos, videos and urls against purely textual content. The feature is represented as a Boolean, stating either that there has or has not been media content identified in the tweet. 
   
-The relative distribution of viral and non-viral tweets is similar around 85% among both types of tweets (Graph 4), with and without media. Nevertheless, the inclusion of media does seem to show a slight increase in the probability of the tweet to be flagged as viral.
+The relative distribution of viral and non-viral tweets appears to be similar among both types of tweets (Graph 4), with and without media. Nevertheless, the inclusion of media does seem to show a slight increase in the probability of the tweet to be flagged as viral, since large majority of viral tweets do not seem to be simply plain text.
 
 *Graph 4: Distribution of viral and non-viral tweets among those with and without media.*
 
@@ -140,7 +141,7 @@ Before extracting the sentiment feature, we first analyzed the potential of each
   
 ### Interpretation
 
-At the first glance, it doesn’t seem that any feature would have an obvious direct impact on the final verdict of virality, since in each case, it is only a minority of the sample that shows a trend towards some kind of a pattern. However, it is more likely that certain combinations, rather than a single feature, will have more significance for the classification into one or the other class.
+At the first glance, it doesn’t seem that any feature would have an obvious direct impact on the final verdict of virality, since in each case, it is only a minority of the sample that shows a trend towards some kind of a pattern. However, it is more likely that certain specific combinations of these feature will have more significance for the classification into one or the other class.
 
 ## Dimensionality Reduction
 
@@ -159,7 +160,7 @@ The mutual information scores for our scores and the virality class were as foll
   Media | 0.027
   Sentiment_score | 0.005
 
-According to these scores, we can order our features based on the corresponding information gain: 
+According to these results, we can order our features based on the corresponding information gain: 
 
 media >  character length >  hashtag count >  sentiment score >  mentions > average tweet length flag
 
@@ -175,48 +176,31 @@ Logistic Regression Classifier is a suitable method to explore the association o
 #### Random Forest
 Random Forest Classifier combines the systematic approach of a single decision tree with robustness of a large number of trees and an element of randomness. Additionally, it provides a lot of flexibility in terms of the implementation. We picked five parameters to explore in more detail: *n_estimators* specifies the number of trees, ie. voters in the forest, we experimented with the values ranging from 50 to 500: *criterion* determines the split quality at the tree formation based on either gini impurity or entropy, we applied both: *max_depth* can be used to limit the expansion of the trees to prevent overfitting, we tried a number of values ranging between 10-200: *bootstrap* parameter determines whether a subset or the whole dataset shall be used for the trees, and finally *class_weight* allows us to balance the weight that is given to the underrepresented class in the dataset.
 
-### Results
+### Results and Interpretation
+
+We experimented with various classifiers such as Logistic Regression, Random Forest and Support Vector Classifier. The output of SVC was realized to be very computationally expensive in terms of time. So eventually we proceeded with the remaining two classifiers i.e. Logistic Regression and Random Forest. The results from Logistic Classifier were not drastically better than the Baseline classifier (with Validation Accuracy ~90%). Hence we finalized and implemented the Random Forest Classifier with exploration of the parameters as specified above.
+
+On the basis of the results from the grid search, we concluded our project by implementing the winning parameter set up below with our test set:
+
+parameter | value
+---| ---
+n_estimators | 50
+criterion | entropy
+max_depth | 50
+bootstrap | True
+class_weight | balanced
 
 
+We have decided on these parameters mainly on the basis of trade offs between Cohen Kappa, F1 Score and Accuracy. As for these parameter values, Cohen Kappa peaked at 0.1306 in addition to the F1 score 0.2326. Accuracy at this point is 80%. When we further vary depth of trees and value for n_estimator, even though F1 score increases marginally, but the values for Cohen Kappa gets saturated with no further increment on variation of parameter values. In addition to this, the accuracy of the predictor falls drastically to 60%. Hence keeping all the evaluation matrices in mind we decided on the mentioned above parameters. 
 
-We experimented with various classifiers such as Logistic Regression, Random Forest and SVC. The output of SVC was realized to be very computationally expensive in terms of time. So, we proceeded with the remaining 2 classifiers i.e. Logistic Regression and Random Forest. The results from Logistic Classifier were not drastically better than the Baseline classifier (with Validation Accuracy ~90%). Hence we finalized and implemented the Random Forest Classifier.
-We implemented GridSearch on the mentioned below variations of parameters - 
+Our final results on the test set are: 
 
-Number of trees = (50, 100)
-Values Criterion = (Gini, Entropy)
-Depth of Trees = (10, 50, 100)
-Bootstrap Value = (True)
-Weight Parameters = (balanced, balanced_subsample)
+metrics | value
+---| ---
+Accuracy | 0.830
+Cohen Kappa | 0.166
+Average_Precision_Score | 0.131
+F1 Score | 0.256
 
-In the table below, a snaphot of output from the grid search of Random Forest Classifier.
-
-class_weight | criterion | max_depth | n_estimators | Average_precision_score | Cohen_kappa | F1 score | accuracy
-  --- | --- | --- | --- | --- | --- | --- | --- |
-None | gini | None | 100 | 0.1150 | 0.1161 | 0.1566 | 0.8968
-balanced | gini | 50 | 50 | --  | 0.1289 | 0.2304 | 0.8066
-balanced_subsample | entropy | 50 | 50 | --  | 0.1291 | 0.2307 | 0.8063
-balanced_subsample | entropy | 50 | 100 | --  | 0.1290 | 0.2306 | 0.8062
-balanced | entropy | 50 | 100 | --  | 0.1301 | 0.2320 | 0.8050
-balanced | entropy | 50 | 50 | --  | 0.1306 | 0.2326 | 0.8048
-
-### Interpretation
-
-
-
-Finally on the basis of the output from grid search we have decided to implement mentioned below parameters values on our Test set:
-Number of trees = 50
-Values Criterion = Entropy
-Depth of Trees = 50
-Bootstrap Value = True
-Weight Parameters = balanced
-
-We have decided on these parameters on the basis of trade offs between Cohen Kappa, F1 Score and Accuracy. As for these parameter values, Cohen Kappa peaked at 0.1306 in addition to the F1 score 0.2326. Accuracy at this point is 80%. When we further vary depth of trees and value for n_estimator, even though F1 score increases marginally, but the values for Cohen Kappa gets saturated with no further increment on variation of parameter values. In addition to this, the accuracy of predictor falls drastically to 60%. Hence keeping all the evaluation matrices in mind we decided on the mentioned above parameters. These parameters values were further used to implement on the test dataset.
-
-
-When these parameters implemented on the test set, the output is - 
-Accuracy = 89% |
-Cohen Kappa = 0.1299
-Average_Precision_Score = 0.1193
-F1 Score = 0.1715
-
+Objectively speaking, our model didn't perform too well, although we can show some improvement in comparison to our baselines. There is a lot of scope for imporovement, for example expanding of the training dataset, mitigating the imbalanced class representation, as well as analysing deeper features such as key words, specific themes of the popular tweets or ways of expression. But considering that our model is fairly simple and the features do not go far beyond the "first impression" of the tweet, we were positively surprised and overall quite happy with the final results.
 
