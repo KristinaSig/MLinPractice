@@ -6,6 +6,7 @@ mkdir -p data/classification
 #Hyperparameter for logistic Regression
 solver_val=("liblinear lbfgs sag saga")
 c_val=("1 10 100")
+class_weight=("balanced None")
 
 
 # different execution modes
@@ -28,8 +29,12 @@ for k in $solver_val
 do
 for j in $c_val
 do
+for l in $class_weight
+do
     echo $k
     echo $j
-    $cmd 'data/classification/clf_'"$k"'_'"$j"'.pickle' --logistic -lr_solver $k -lr_c $j -s 42 --accuracy --kappa
+    echo $l
+    $cmd 'data/classification/clf_'"$k"'_'"$j"'_'"$l"'.pickle' --logistic -lr_solver $k -lr_c $j -lr_class_weight $l -s 42 --accuracy --kappa
+done
 done
 done
