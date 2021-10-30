@@ -204,15 +204,19 @@ balanced | entropy | 50 | 50 | --  | 0.1306 | 0.2326 | 0.8048
 
 
 Finally on the basis of the output from grid search we have decided to implement mentioned below parameters values on our Test set:
-Number of trees = 100
-Values Criterion = Gini
-Depth of Trees = None
+Number of trees = 50
+Values Criterion = Entropy
+Depth of Trees = 50
 Bootstrap Value = True
-Weight Parameters = None
+Weight Parameters = balanced
+
+We have decided on these parameters on the basis of trade offs between Cohen Kappa, F1 Score and Accuracy. As for these parameter values, Cohen Kappa peaked at 0.1306 in addition to the F1 score 0.2326. Accuracy at this point is 80%. When we further vary depth of trees and value for n_estimator, even though F1 score increases marginally, but the values for Cohen Kappa gets saturated with no further increment on variation of parameter values. In addition to this, the accuracy of predictor falls drastically to 60%. Hence keeping all the evaluation matrices in mind we decided on the mentioned above parameters. These parameters values were further used to implement on the test dataset.
+
 
 When these parameters implemented on the test set, the output is - 
 Accuracy = 89% |
-Cohen Kappa = 0.1270
-Average_Precision_Score = 0.1185
-F1 Score = 0.1680
+Cohen Kappa = 0.1299
+Average_Precision_Score = 0.1193
+F1 Score = 0.1715
+
 
